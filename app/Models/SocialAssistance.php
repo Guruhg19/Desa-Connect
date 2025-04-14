@@ -19,5 +19,9 @@ class SocialAssistance extends Model
         'description',
         'is_available'
     ];
-    
+
+
+    public function SocialAssistanceRecipients(){
+        return $this->hasMany(SocialAssistanceRecipient::class);
+    }
 }
