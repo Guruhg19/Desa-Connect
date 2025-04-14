@@ -1,5 +1,10 @@
 # DesaConnect --- Desa : Communication & Online Network for E-Citizen Technology
 
+![Laravel](https://img.shields.io/badge/Laravel-12-red?style=flat&logo=laravel)
+![Vue](https://img.shields.io/badge/Vue.js-3-42b883?style=flat&logo=vue.js)
+![MySQL](https://img.shields.io/badge/MySQL-Database-informational?style=flat&logo=mysql)
+![Midtrans](https://img.shields.io/badge/Midtrans-Gateway-lightgrey?style=flat&logo=data)
+
 DesaConnect adalah aplikasi **Desa Digital Modern** berbasis web yang dikembangkan menggunakan Laravel 12 dan Vue 3. Aplikasi ini ditujukan untuk mempermudah proses administrasi desa dan interaksi antara pihak pemerintahan desa (kepala desa) dengan masyarakat (kepala rumah tangga).
 
 ## 📚 Tentang Proyek
@@ -90,7 +95,6 @@ npm install && npm run dev
 ```bash
 php artisan serve
 ```
-
 
 ---
 
