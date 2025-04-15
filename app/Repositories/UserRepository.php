@@ -60,6 +60,25 @@ class UserRepository implements UserRepositoryInterface
         return $query->first();
     }
 
+    public function update(string $id, array $data)
+    {
+        DB::beginTransaction();
+        
+        try {
+            $user = User::find($id);
+            $user->name = $data['name'];
+            if(isset($data['password'])){
+                $user->password = bcrypt($data['password']);
+            }
+            $user->save();
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
 
 
 }
