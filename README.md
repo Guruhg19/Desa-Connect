@@ -102,3 +102,13 @@ php artisan serve
 
 Silakan kontribusi, fork, dan beri bintang ⭐ jika kamu suka proyek ini!
 
+---
+
+## 📝 Lis
+
+Proyek ini dibuat sebagai bagian dari pembelajaran. Digunakan untuk portfolio dan dikembangkan lebih lanjut.
+
+---
+
+Happy building! 🚀  
+
