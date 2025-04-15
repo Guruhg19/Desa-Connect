@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('development_applicants', function (Blueprint $table) {
+        Schema::create('profile_images', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->uuid('development_id');
-            $table->foreign('development_id')->references('id')->on('developments');
-
-            $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
-            $table->enum('status',['pending','approved','rejected'])->default('pending');
+            $table->uuid('profile_id');
+            $table->foreign('profile_id')->references('id')->on('profiles');
+            
+            $table->string('image');
 
             $table->softDeletes();
             $table->timestamps();
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('development_applicants');
+        Schema::dropIfExists('profile_images');
     }
 };

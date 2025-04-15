@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('event_participants', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->uuid('id')->primary();
 
             $table->uuid('event_id');
             $table->foreign('event_id')->references('id')->on('events');

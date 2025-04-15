@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('development_applicants', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->uuid('development_id');
-            $table->foreign('development_id')->references('id')->on('developments');
+            $table->string('name');
+            $table->string('thumbnail');
+            $table->string('headman');
+            $table->integer('people');
+            $table->longText('about');
+            $table->decimal('agricultural_area', 16, 4);
+            $table->decimal('total_area', 16, 4);
 
-            $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
-            $table->enum('status',['pending','approved','rejected'])->default('pending');
 
             $table->softDeletes();
             $table->timestamps();
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('development_applicants');
+        Schema::dropIfExists('profiles');
     }
 };
