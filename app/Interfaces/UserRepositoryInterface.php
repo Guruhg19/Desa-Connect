@@ -15,5 +15,6 @@ interface UserRepositoryInterface
         ?int $rowPerPage
     );
 
+    public function create(array $data);
 
 }
