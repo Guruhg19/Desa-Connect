@@ -72,7 +72,11 @@ public function getAll(?string $search, ?int $limit, bool $execute)
         }
     }
 
-
+    public function getById(string $id)
+    {
+        $query = HeadOfFamily::where('id', $id);
+        return $query->first();
+    }
 
 
 

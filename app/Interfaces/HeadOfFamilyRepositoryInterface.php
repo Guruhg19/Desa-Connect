@@ -19,6 +19,9 @@ interface HeadOfFamilyRepositoryInterface
         array $data
     );
 
+    public function getById(
+        string $id
+    );
 
     
 }

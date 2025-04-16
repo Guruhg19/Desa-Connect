@@ -65,7 +65,15 @@ class HeadOfFamilyController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $headOfFamily = $this->headOfFamilyRepository->getById($id);
+            if(!$headOfFamily){
+                return ResponseHelper::jsonResponse(false,'Kepala Keluarga tidak ditemukan', null, 404);
+            }
+            return ResponseHelper::jsonResponse(true,'Detail Kepala Keluarga berhasil diambil', new HeadOfFamilyResource($headOfFamily),200);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**
