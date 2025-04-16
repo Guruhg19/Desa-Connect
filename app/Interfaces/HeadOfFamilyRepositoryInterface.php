@@ -23,5 +23,7 @@ interface HeadOfFamilyRepositoryInterface
         string $id
     );
 
+    public function update(string $id, array $data);
+
     
 }
