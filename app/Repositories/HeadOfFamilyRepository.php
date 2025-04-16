@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\HeadOfFamily;
+use Illuminate\Support\Facades\DB;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
+use app\Repositories\UserRepository;
+use Exception;
 
 class HeadOfFamilyRepository implements HeadOfFamilyRepositoryInterface
 {
@@ -36,5 +39,42 @@ public function getAll(?string $search, ?int $limit, bool $execute)
         );
         return $query->paginate($rowPerPage);
     }
+
+    public function create(array $data)
+    {
+        DB::beginTransaction();
+        
+        try {
+            $userRepository = new UserRepository;
+
+            $user = $userRepository->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password']
+            ]);
+
+            $headOfFamily = new HeadOfFamily;
+            $headOfFamily->user_id = $user->id;
+            $headOfFamily->profile_picture = $data['profile_picture']->store('assets/head-of-families','public');
+            $headOfFamily->identity_number = $data['identity_number'];
+            $headOfFamily->gender = $data['gender'];
+            $headOfFamily->date_of_birth = $data['date_of_birth'];
+            $headOfFamily->phone_number = $data['phone_number'];
+            $headOfFamily->occupation = $data['occupation'];
+            $headOfFamily->marital_status = $data['marital_status'];
+            $headOfFamily->save();
+
+            DB::commit();
+            return $headOfFamily;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
+
+
+
+
 
 }

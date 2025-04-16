@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\HeadOfFamilyRequest;
 use App\Http\Resources\HeadOfFamilyResource;
 use app\Http\Resources\PaginateResource;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
@@ -30,7 +31,7 @@ class HeadOfFamilyController extends Controller
     }
 
     public function getAllPaginated(Request $request){
-        $request = $request->validated([
+        $request = $request->validate([
             'search' => 'nullable|string',
             'row_per_page' => 'required|integer'
         ]);
@@ -48,9 +49,15 @@ class HeadOfFamilyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(HeadOfFamilyRequest $request)
     {
-        //
+        $request = $request->validated();
+        try {
+            $headOfFamily = $this->headOfFamilyRepository->create($request);
+            return ResponseHelper::jsonResponse(true, 'Kepala Keluarga berhasil ditambahkan', new HeadOfFamilyResource($headOfFamily), 201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**

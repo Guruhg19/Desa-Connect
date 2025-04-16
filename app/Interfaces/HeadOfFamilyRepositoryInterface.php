@@ -14,4 +14,11 @@ interface HeadOfFamilyRepositoryInterface
         ?string $search,
         ?int $rowPerPage
     );
+
+    public function create(
+        array $data
+    );
+
+
+    
 }
