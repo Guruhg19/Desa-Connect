@@ -109,6 +109,18 @@ public function getAll(?string $search, ?int $limit, bool $execute)
         }
     }
 
-
+    public function delete(string $id)
+    {
+        DB::beginTransaction();
+        try {
+            $headOfFamily = HeadOfFamily::find($id);
+            $headOfFamily->delete();
+            DB::commit();
+            return $headOfFamily;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
 
 }
