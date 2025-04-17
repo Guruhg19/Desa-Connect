@@ -69,6 +69,11 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface {
         }
     }
 
+    public function getById(string $id)
+    {
+        $query = FamilyMember::where('id', $id)->with('headOfFamily');
+        return $query->first();
+    }
 
 
 }

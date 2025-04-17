@@ -19,5 +19,7 @@ interface FamilyMemberRepositoryInterface {
         array $data
     );
 
+    public function getById(string $id);
+
 
 }
