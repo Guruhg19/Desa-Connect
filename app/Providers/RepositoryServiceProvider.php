@@ -2,14 +2,13 @@
 
 namespace App\Providers;
 
-use app\Http\Resources\FamilyMemberRepository;
-use App\Interfaces\HeadOfFamilyRepositoryInterface;
-use App\Interfaces\HeadOfRepositoryInterface;
-use App\Interfaces\UserRepositoryInterface;
-use App\Repositories\HeadOfFamilyRepository;
 use app\Repositories\UserRepository;
-use FamilyMemberRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\FamilyMemberRepository;
+use App\Repositories\HeadOfFamilyRepository;
+use App\Interfaces\FamilyMemberRepositoryInterface;
+use App\Interfaces\HeadOfFamilyRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {

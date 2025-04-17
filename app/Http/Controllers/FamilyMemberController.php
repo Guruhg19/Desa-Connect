@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\FamilyMemberStoreRequest;
+use App\Http\Resources\PaginateResource;
 use App\Http\Resources\FamilyMemberResource;
-use app\Http\Resources\PaginateResource;
-use FamilyMemberRepositoryInterface;
+use App\Interfaces\FamilyMemberRepositoryInterface;
+
 
 class FamilyMemberController extends Controller
 {
@@ -25,7 +27,7 @@ class FamilyMemberController extends Controller
             $familyMembers = $this->familyMemberRepository->getAll(
                 $request->search,
                 $request->limit,
-                false
+                true
             );
 
             return ResponseHelper::jsonResponse(true, 'Data Anggota Keluarga berhasil Diambil', FamilyMemberResource::collection($familyMembers), 200);
@@ -55,9 +57,15 @@ class FamilyMemberController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FamilyMemberStoreRequest $request)
     {
-        //
+        $request = $request->validated();
+        try {
+            $familyMember = $this->familyMemberRepository->create($request);
+            return ResponseHelper::jsonResponse(true, 'Data Anggota Keluarga berhasil Ditambahkan', new FamilyMemberResource($familyMember), 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**

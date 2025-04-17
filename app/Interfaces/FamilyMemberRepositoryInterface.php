@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Interfaces;
+
 interface FamilyMemberRepositoryInterface {
 
     public function getAll(
@@ -11,6 +13,10 @@ interface FamilyMemberRepositoryInterface {
     public function getAllPaginated(
         ?string $search,
         ?int $rowPerPage
+    );
+
+    public function create(
+        array $data
     );
 
 
