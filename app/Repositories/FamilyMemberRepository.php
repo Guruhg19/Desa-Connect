@@ -107,5 +107,18 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface {
         }
     }
 
+    public function delete(string $id)
+    {
+        DB::beginTransaction();
+        try {
+            $familyMember = FamilyMember::find($id);
+            $familyMember->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
 
 }
