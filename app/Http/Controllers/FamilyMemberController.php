@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\FamilyMemberStoreRequest;
+use App\Http\Requests\FamilyMemberUpdateRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\FamilyMemberResource;
 use App\Interfaces\FamilyMemberRepositoryInterface;
@@ -87,9 +88,19 @@ class FamilyMemberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FamilyMemberUpdateRequest $request, string $id)
     {
-        //
+        $request = $request->validated();
+        try {
+            $familyMember = $this->familyMemberRepository->getById($id);
+            if(!$familyMember){
+                return ResponseHelper::jsonResponse(false, 'Data Anggota Keluarga tidak ditemukan', null, 404);
+            }
+            $familyMember = $this->familyMemberRepository->update($id, $request);
+            return ResponseHelper::jsonResponse(true, 'Data Anggota Keluarga berhasil Diupdate', new FamilyMemberResource($familyMember), 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**

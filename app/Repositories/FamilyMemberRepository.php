@@ -75,5 +75,37 @@ class FamilyMemberRepository implements FamilyMemberRepositoryInterface {
         return $query->first();
     }
 
+    public function update(string $id, array $data)
+    {
+        DB::beginTransaction();
+        try {
+            $familyMember = FamilyMember::find($id);
+            if(isset($data['profile_picture'])){
+                $familyMember->profile_picture = $data['profile_picture']->store('assets/family-members','public');
+            }
+            $familyMember->identity_number = $data['identity_number'];
+            $familyMember->gender = $data['gender'];
+            $familyMember->date_of_birth = $data['date_of_birth'];
+            $familyMember->phone_number = $data['phone_number'];
+            $familyMember->occupation = $data['occupation'];
+            $familyMember->marital_status = $data['marital_status'];
+            $familyMember->relation = $data['relation'];
+            $familyMember->save();
+
+            $userRepository = new UserRepository;
+            $userRepository->update($familyMember->user_id, [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => isset($data['password']) ? bcrypt($data['password']) : $familyMember->user->password
+            ]);
+
+            DB::commit();
+            return $familyMember;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
+    }
+
 
 }
