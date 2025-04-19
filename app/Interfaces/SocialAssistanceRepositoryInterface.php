@@ -26,4 +26,5 @@ interface SocialAssistanceRepositoryInterface
         array $data
     );
 
+    public function delete(string $id);
 }
