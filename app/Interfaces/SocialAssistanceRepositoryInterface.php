@@ -21,4 +21,9 @@ interface SocialAssistanceRepositoryInterface
 
     public function getByid(string $id);
 
+    public function update(
+        string $id,
+        array $data
+    );
+
 }
