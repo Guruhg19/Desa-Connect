@@ -20,6 +20,10 @@ class SocialAssistance extends Model
         'is_available'
     ];
 
+    protected $casts = [
+        'is_available' => 'boolean'
+    ];
+
     public function scopeSearch($query, $search)
     {
         return $query->where('name', 'like', '%' . $search . '%')
