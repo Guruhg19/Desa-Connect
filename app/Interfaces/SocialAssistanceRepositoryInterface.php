@@ -19,4 +19,6 @@ interface SocialAssistanceRepositoryInterface
         array $data
     );
 
+    public function getByid(string $id);
+
 }
