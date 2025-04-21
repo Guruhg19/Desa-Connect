@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
+use App\Http\Resources\PaginateResource;
+use App\Http\Resources\SocialAssistanceRecipientResource;
+use App\Interfaces\SocialAssistanceRecipientRepositoryInterface;
 use Illuminate\Http\Request;
 
 class SocialAssistanceRecipientController extends Controller
@@ -9,9 +13,43 @@ class SocialAssistanceRecipientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    private SocialAssistanceRecipientRepositoryInterface $socialAssistanceRecipientRepository;
+
+    public function __construct(SocialAssistanceRecipientRepositoryInterface $socialAssistanceRecipientRepository)
     {
-        //
+        $this->socialAssistanceRecipientRepository = $socialAssistanceRecipientRepository;
+    } 
+
+    
+    public function index(Request $request)
+    {
+        try {
+            $socialAssistanceRecipients = $this->socialAssistanceRecipientRepository->getAll(
+                $request->search,
+                $request->limit,
+                true
+            );
+            return ResponseHelper::jsonResponse(true, 'Data Penerima Bantuan Sosial Berhasil Diambil', SocialAssistanceRecipientResource::collection($socialAssistanceRecipients), 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null , 500);
+        }
+    }
+
+    public function getAllPaginated(Request $request){
+        $request = $request->validate([
+            'search' => 'nullable|string',
+            'row_per_page' => 'required|integer'
+        ]);
+
+        try {
+            $socialAssistanceRecipients = $this->socialAssistanceRecipientRepository->getAllPaginated(
+                $request['search'] ?? null,
+                $request['row_per_page']
+            );
+            return ResponseHelper::jsonResponse(true, 'Data Penerima Bantuan Sosial Berhasil Diambil', PaginateResource::make($socialAssistanceRecipients, SocialAssistanceRecipientResource::class), 200);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null , 500);
+        }
     }
 
     /**
