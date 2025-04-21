@@ -17,6 +17,9 @@ return new class extends Migration
             $table->uuid('social_assistance_id');
             $table->foreign('social_assistance_id')->references('id')->on('social_assistances');
 
+            $table->uuid('head_of_family_id');
+            $table->foreign('head_of_family_id')->references('id')->on('head_of_families');
+
             $table->enum('bank',['bri','bca','bni','mandiri']);
             $table->decimal('amount');
             $table->longText('reason');
