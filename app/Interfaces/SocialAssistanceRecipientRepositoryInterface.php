@@ -26,4 +26,6 @@ interface SocialAssistanceRecipientRepositoryInterface
         array $data
     );
 
+    public function delete($id);
+
 }
