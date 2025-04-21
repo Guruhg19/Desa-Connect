@@ -26,7 +26,20 @@ class SocialAssistanceRecipientStoreRequest extends FormRequest
             'account_number' => 'required',
             'proof' => 'nullable|image',
             'status' => 'nullable|string|in:pending,rejected,approved',
-            
+
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            'social_assistance_id' => 'Bantuan Sosial',
+            'head_of_family_id' => 'Kepala Keluarga',
+            'amount' => 'Nominal',
+            'reason' => 'Alasan',
+            'bank' => 'Bank',
+            'account_number' => 'Nomor Rekening',
+            'proof' => 'Bukti Penerimaan',
+            'status' => 'Status Pengajuan'
         ];
     }
 }

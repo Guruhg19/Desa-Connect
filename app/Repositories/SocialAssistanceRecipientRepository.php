@@ -17,6 +17,8 @@ class SocialAssistanceRecipientRepository implements SocialAssistanceRecipientRe
             }
         } );
 
+        $query->orderBy('created_at', 'desc');
+
         if($limit){
             $query->take($limit);
         }

@@ -62,7 +62,7 @@ class SocialAssistanceRecipientController extends Controller
         $request = $request->validated();
         try {
             $socialAssistanceRecipient = $this->socialAssistanceRecipientRepository->create($request);
-            return ResponseHelper::jsonResponse(true, 'Data Penerima Bantuan Berhasil Dibuat', new SocialAssistanceResource($socialAssistanceRecipient), 200);
+            return ResponseHelper::jsonResponse(true, 'Data Penerima Bantuan Berhasil Dibuat', new SocialAssistanceRecipientResource($socialAssistanceRecipient), 200);
         } catch (\Exception $e) {
             return ResponseHelper::jsonResponse(false, $e->getMessage(), null , 500);
         }
