@@ -17,8 +17,8 @@ class SocialAssistanceRecipientResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'social_assistance' => new SocialAssistance($this->socialAssistance),
-            'head_of_family' => new HeadOfFamily($this->headOfFamily),
+            'social_assistance' => new SocialAssistanceResource($this->socialAssistance),
+            'head_of_family' => new HeadOfFamilyResource($this->headOfFamily),
             'amount' => $this->amount,
             'reason' => $this->reason,
             'account_number' => $this->account_number,

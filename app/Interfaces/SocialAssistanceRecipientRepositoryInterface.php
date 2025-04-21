@@ -17,4 +17,6 @@ interface SocialAssistanceRecipientRepositoryInterface
         ?int $rowPerPage
     );
 
+    public function create(array $data);
+
 }

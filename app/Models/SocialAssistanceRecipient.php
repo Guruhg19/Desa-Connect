@@ -26,7 +26,7 @@ class SocialAssistanceRecipient extends Model
         return $query->whereHas('headOfFamily', function ($query) use ($search) {
             $query->whereHas('user', function ($query) use ($search){
                 $query->where('name', 'like', '%' . $search . '%');
-                $query->where('email', 'like', '%' . $search . '%');
+                $query->orWhere('email', 'like', '%' . $search . '%');
             });
         });
     }
