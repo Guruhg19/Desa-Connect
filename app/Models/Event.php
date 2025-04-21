@@ -20,6 +20,10 @@ class Event extends Model
         'is_active'
     ];
 
+    public function scopeSearch($query, $search){
+        return $query->where('name', 'like', '%' . $search . '%');
+    }
+
     public function eventParticipants(){
         return $this->hasMany(EventParticipant::class);
     }

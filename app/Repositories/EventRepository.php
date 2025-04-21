@@ -32,6 +32,6 @@ class EventRepository implements EventRepositoryInterface
             $rowPerPage,
             false
         );
-        return $query->paginated($rowPerPage);
+        return $query->paginate($rowPerPage);
     }
 }
