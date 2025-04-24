@@ -57,7 +57,7 @@ class EventRepository implements EventRepositoryInterface
             return $event;
         } catch (\Exception $e) {
             DB::rollBack();
-            return new Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 
