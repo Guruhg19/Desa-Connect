@@ -109,6 +109,17 @@ class EventController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $event = $this->eventRepository->getById($id);
+            if(!$event){
+                return ResponseHelper::jsonResponse(false, 'Data Event Tidak Ditemukan', null, 404);
+            }
+            $event = $this->eventRepository->delete(
+                $id
+            );
+            return ResponseHelper::jsonResponse(true, 'Data Event Berhasil Dihapus', null ,201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 }

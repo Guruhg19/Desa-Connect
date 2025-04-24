@@ -26,4 +26,6 @@ interface EventRepositoryInterface
         array $data
     );
 
+    public function delete($id);
+
 }
