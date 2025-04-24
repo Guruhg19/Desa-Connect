@@ -15,5 +15,9 @@ interface EventRepositoryInterface
         ?int $rowPerPage
     );
 
+    public function create(
+        array $data
+    );
+
 
 }

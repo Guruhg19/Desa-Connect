@@ -18,7 +18,7 @@ class EventResource extends JsonResource
             'thumbnail' => $this->thumbnail,
             'name' => $this->name,
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => (float)(string) $this->price,
             'date' => $this->date,
             'time' => $this->time,
             'is_active' => $this->is_active

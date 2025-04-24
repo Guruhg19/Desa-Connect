@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\EventStoreRequest;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\PaginateResource;
 use App\Interfaces\EventRepositoryInterface;
@@ -53,9 +54,15 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EventStoreRequest $request)
     {
-        //
+        $request = $request->validated();
+        try {
+            $event = $this->eventRepository->create($request);
+            return ResponseHelper::jsonResponse(true, 'Data Event Berhasil Dibuat', new EventResource($event),201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**

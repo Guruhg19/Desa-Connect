@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Event;
+use Illuminate\Support\Facades\DB;
 use App\Interfaces\EventRepositoryInterface;
+use Exception;
 
 class EventRepository implements EventRepositoryInterface
 {
@@ -34,4 +36,32 @@ class EventRepository implements EventRepositoryInterface
         );
         return $query->paginate($rowPerPage);
     }
+
+    public function create(array $data)
+    {
+        DB::beginTransaction();
+        try {
+            $event = new Event;
+            $event->thumbnail = $data['thumbnail']->store('assets/events', 'public');
+            $event->name = $data['name'];
+            $event->description = $data['description'];
+            $event->price = $data['price'];
+            $event->date = $data['date'];
+            $event->time = $data['time'];
+
+            if(isset($data['is_active'])){
+                $event->is_active = $data['is_active'];
+            }
+            $event->save();
+            DB::commit();
+            return $event;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return new Exception($e->getMessage());
+        }
+
+
+    }
+
+
 }
