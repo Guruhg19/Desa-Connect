@@ -21,6 +21,14 @@ class Development extends Model
         'status'
     ];
 
+    protected $casts = [
+        'amount' => 'decimal:2'
+    ];
+    
+    public function scopeSearch($query, $search){
+        return $query->where('name', 'like', '%' . $search . '%');
+    }
+
     public function developmentApplicants(){
         return $this->hasMany(DevelopmentApplicant::class);
     }
