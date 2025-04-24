@@ -59,9 +59,12 @@ class EventRepository implements EventRepositoryInterface
             DB::rollBack();
             return new Exception($e->getMessage());
         }
-
-
     }
 
+    public function getById(string $id)
+    {
+        $query = Event::where('id', $id);
+        return $query->first();
+    }
 
 }

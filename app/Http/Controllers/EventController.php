@@ -7,6 +7,7 @@ use App\Http\Requests\EventStoreRequest;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\PaginateResource;
 use App\Interfaces\EventRepositoryInterface;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -70,7 +71,15 @@ class EventController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $event = $this->eventRepository->getById($id);
+            if(!$event){
+                return ResponseHelper::jsonResponse(false, 'Data Event Tidak Ditemukan', null, 404);
+            }
+            return ResponseHelper::jsonResponse(true, 'Data Event Berhasil Diambil', new EventResource($event),201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**

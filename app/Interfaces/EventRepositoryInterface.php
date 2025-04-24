@@ -19,5 +19,6 @@ interface EventRepositoryInterface
         array $data
     );
 
+    public function getById(string $id);
 
 }
