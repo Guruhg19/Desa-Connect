@@ -67,4 +67,30 @@ class EventRepository implements EventRepositoryInterface
         return $query->first();
     }
 
+    public function update(string $id, array $data)
+    {
+        DB::beginTransaction();
+        try {
+            $event = Event::find($id);
+            if(isset($data['thumbnail'])){
+            $event->thumbnail = $data['thumbnail']->store('assets/events', 'public');
+            }
+            $event->name = $data['name'];
+            $event->description = $data['description'];
+            $event->price = $data['price'];
+            $event->date = $data['date'];
+            $event->time = $data['time'];
+
+            if(isset($data['is_active'])){
+                $event->is_active = $data['is_active'];
+            }
+            $event->save();
+            DB::commit();
+            return $event;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return new Exception($e->getMessage());
+        }
+    }
+
 }

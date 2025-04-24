@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\EventStoreRequest;
+use App\Http\Requests\EventUpdateRequest;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\PaginateResource;
 use App\Interfaces\EventRepositoryInterface;
@@ -85,9 +86,22 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EventUpdateRequest $request, string $id)
     {
-        //
+        $request = $request->validated();
+        try {
+            $event = $this->eventRepository->getById($id);
+            if(!$event){
+                return ResponseHelper::jsonResponse(false, 'Data Event Tidak Ditemukan', null, 404);
+            }
+            $event = $this->eventRepository->update(
+                $id,
+                $request
+            );
+            return ResponseHelper::jsonResponse(true, 'Data Event Berhasil Diupdate', new EventResource($event),201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**
