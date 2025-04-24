@@ -8,6 +8,7 @@ use App\Http\Requests\EventParticipantStoreRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\EventParticipantResource;
 use App\Interfaces\EventParticipantRepositoryInterface;
+use App\Models\EventParticipant;
 
 class EventParticipantController extends Controller
 {
@@ -69,7 +70,15 @@ class EventParticipantController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $event = $this->eventParticipantRepository->getById($id);
+            if(!$event){
+                return ResponseHelper::jsonResponse(false, 'Data Pendaftar Event Tidak Ditemukan', null, 404);
+            }
+            return ResponseHelper::jsonResponse(true, 'Data Pendaftar Event Berhasil Diambil', new EventParticipantResource($event),201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**

@@ -55,4 +55,10 @@ class EventParticipantRepository implements EventParticipantRepositoryInterface
             throw new Exception($e->getMessage());
         }
     }
+
+    public function getById(string $id)
+    {
+        $query = EventParticipant::where('id', $id);
+        return $query->first();
+    }
 }
