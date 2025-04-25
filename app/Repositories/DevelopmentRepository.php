@@ -36,8 +36,8 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
         return $query->paginate($rowPerPage);
     }
 
-    public function create(array $data)
-    {
+        public function create(array $data)
+        {
         DB::beginTransaction();
         try {
             $development = new Development();
