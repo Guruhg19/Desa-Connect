@@ -58,6 +58,11 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
         }
     }
 
+    public function getById(string $id)
+    {
+        $query = Development::where('id', $id);
+        return $query->first();
+    }
 
 
 
