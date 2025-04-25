@@ -88,4 +88,18 @@ class DevelopmentRepository implements DevelopmentRepositoryInterface
         }
     }
 
+    public function delete(string $id)
+    {
+        DB::beginTransaction();
+        try {
+            $development = Development::find($id);
+            $development->delete();
+            DB::commit();
+            return $development;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return new Exception($e->getMessage());
+        }
+    }
+
 }
