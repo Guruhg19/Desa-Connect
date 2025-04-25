@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\DevelopmentStoreRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\DevelopmentResource;
 use App\Interfaces\DevelopmentRepositoryInterface;
@@ -52,9 +53,16 @@ class DevelopmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DevelopmentStoreRequest $request)
     {
-        //
+        $request = $request->validated();
+
+        try {
+            $development = $this->developmentRepository->create($request);
+            return ResponseHelper::jsonResponse(true, 'Data Pembangunan Berhasil Dibuat', new DevelopmentResource($development), 201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**
