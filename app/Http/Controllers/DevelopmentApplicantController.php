@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
 use App\Http\Requests\DevelopmentApplicantStoreRequest;
+use App\Http\Requests\DevelopmentApplicantUpdateRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\DevelopmentApplicantResource;
 use App\Interfaces\DevelopmentApplicantRepositoryInterface;
@@ -73,15 +74,33 @@ class DevelopmentApplicantController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $developmentApplicant = $this->developmentApplicantRepository->getById($id);
+            if(!$developmentApplicant){
+                return ResponseHelper::jsonResponse(false, 'Data Pendaftar Pembangunan Tidak Ditemukan', null, 404);
+            }
+            return ResponseHelper::jsonResponse(true, 'Data Pendaftar Pembangunan Berhasil Diambil', new DevelopmentApplicantResource($developmentApplicant),201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DevelopmentApplicantUpdateRequest $request, string $id)
     {
-        //
+        $request = $request->validated();
+        try {
+            $developmentApplicant = $this->developmentApplicantRepository->getById($id);
+            if(!$developmentApplicant){
+                return ResponseHelper::jsonResponse(false, 'Data Pendaftar Pembangunan Tidak Ditemukan', null, 404);
+            }
+            $developmentApplicant = $this->developmentApplicantRepository->update($id, $request);
+            return ResponseHelper::jsonResponse(true, 'Data Pendaftar Pembangunan Berhasil Diupdate', new DevelopmentApplicantResource($developmentApplicant),201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 
     /**
@@ -89,6 +108,17 @@ class DevelopmentApplicantController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $developmentApplicant = $this->developmentApplicantRepository->getById($id);
+            if(!$developmentApplicant){
+                return ResponseHelper::jsonResponse(false, 'Data Pendaftar Pembangunan Tidak Ditemukan', null, 404);
+            }
+            $developmentApplicant = $this->developmentApplicantRepository->delete(
+                $id
+            );
+            return ResponseHelper::jsonResponse(true, 'Data Pendaftar Pembangunan Berhasil Dihapus', null ,201);
+        } catch (\Exception $e) {
+            return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
+        }
     }
 }
