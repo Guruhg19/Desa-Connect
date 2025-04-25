@@ -45,7 +45,7 @@ class DevelopmentController extends Controller
                 $request['search'] ?? null,
                 $request['row_per_page']
             );
-            return ResponseHelper::jsonResponse(true, 'Data Pendaftar Event Berhasil Diambil', PaginateResource::make($developments, DevelopmentResource::class), 200 );
+            return ResponseHelper::jsonResponse(true, 'Data Pendaftar Development Berhasil Diambil', PaginateResource::make($developments, DevelopmentResource::class), 200 );
         } catch (\Exception $e) {
             return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
         }
