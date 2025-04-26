@@ -20,10 +20,10 @@ class ProfileController extends Controller
     public function index(){
         try {
             $profile = $this->profileRepository->get();
-            return ResponseHelper::jsonResponse(true, 'Profile Berhasil diambil', new ProfileResource($profile), 200);
             if(!$profile){
-                return ResponseHelper::jsonResponse(false, 'Profile tidak ditemukan', null, 404);
+                return ResponseHelper::jsonResponse(false, 'Data Profile Tidak ada', null, 404);
             }
+            return ResponseHelper::jsonResponse(true, 'Profile Berhasil diambil', new ProfileResource($profile), 200);
         } catch (\Exception $e) {
             return ResponseHelper::jsonResponse(false, $e->getMessage(), null, 500);
         }

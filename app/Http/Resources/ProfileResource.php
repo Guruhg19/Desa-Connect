@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\ProfileImageResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProfileResource extends JsonResource
@@ -22,7 +23,7 @@ class ProfileResource extends JsonResource
         // 'agricultural_area',
         // 'total_area'
         return [
-            'id' => $this->id,
+            // 'id' => $this->id,
             'thumbnail' => $this->thumbnail,
             'name' => $this->name,
             'headman' => $this->headman,

@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use app\Repositories\UserRepository;
-use App\Interfaces\ProfileRepository;
 use App\Repositories\EventRepository;
+use App\Repositories\ProfileRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\DevelopmentRepository;

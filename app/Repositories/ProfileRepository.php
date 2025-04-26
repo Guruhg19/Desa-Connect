@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Repositories;
 
 use Exception;
 use App\Models\Profile;
 use Illuminate\Support\Facades\DB;
+use App\Interfaces\ProfileRepositoryInterface;
 
 class ProfileRepository implements ProfileRepositoryInterface
 {
@@ -17,7 +18,7 @@ class ProfileRepository implements ProfileRepositoryInterface
     {
         DB::beginTransaction();
         try {
-            $profile = new Profile();
+            $profile = new Profile;
             $profile->thumbnail = $data['thumbnail']->store('assets/profiles', 'public');
             $profile->name = $data['name'];
             $profile->headman = $data['headman'];
@@ -32,6 +33,7 @@ class ProfileRepository implements ProfileRepositoryInterface
                     ]);
                 }
             }
+            $profile->save();
             DB::commit();
             return $profile;
         } catch (\Exception $e) {
@@ -61,6 +63,7 @@ class ProfileRepository implements ProfileRepositoryInterface
                     ]);
                 }
             }
+            $profile->save();
             DB::commit();
             return $profile;
         } catch (\Exception $e) {
