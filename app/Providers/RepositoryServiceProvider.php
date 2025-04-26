@@ -2,25 +2,27 @@
 
 namespace App\Providers;
 
-use App\Interfaces\DevelopmentApplicantRepositoryInterface;
-use App\Interfaces\DevelopmentRepositoryInterface;
-use App\Interfaces\EventParticipantRepositoryInterface;
-use App\Interfaces\EventRepositoryInterface;
 use app\Repositories\UserRepository;
+use App\Interfaces\ProfileRepository;
+use App\Repositories\EventRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\DevelopmentRepository;
+use App\Interfaces\EventRepositoryInterface;
 use App\Repositories\FamilyMemberRepository;
 use App\Repositories\HeadOfFamilyRepository;
+use App\Interfaces\ProfileRepositoryInterface;
+use App\Repositories\EventParticipantRepository;
+use App\Repositories\SocialAssistanceRepository;
+use App\Interfaces\DevelopmentRepositoryInterface;
 use App\Interfaces\FamilyMemberRepositoryInterface;
 use App\Interfaces\HeadOfFamilyRepositoryInterface;
-use App\Interfaces\SocialAssistanceRecipientRepositoryInterface;
-use App\Interfaces\SocialAssistanceRepositoryInterface;
 use App\Repositories\DevelopmentApplicantRepository;
-use App\Repositories\DevelopmentRepository;
-use App\Repositories\EventParticipantRepository;
-use App\Repositories\EventRepository;
+use App\Interfaces\EventParticipantRepositoryInterface;
+use App\Interfaces\SocialAssistanceRepositoryInterface;
 use App\Repositories\SocialAssistanceRecipientRepository;
-use App\Repositories\SocialAssistanceRepository;
+use App\Interfaces\DevelopmentApplicantRepositoryInterface;
+use App\Interfaces\SocialAssistanceRecipientRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(EventParticipantRepositoryInterface::class, EventParticipantRepository::class);
         $this->app->bind(DevelopmentRepositoryInterface::class, DevelopmentRepository::class);
         $this->app->bind(DevelopmentApplicantRepositoryInterface::class, DevelopmentApplicantRepository::class);
+        $this->app->bind(ProfileRepositoryInterface::class, ProfileRepository::class);
     }
 
     /**
