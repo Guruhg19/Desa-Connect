@@ -41,3 +41,4 @@ Route::get('development-applicant/all/paginated',[DevelopmentApplicantController
 
 Route::get('profile', [ProfileController::class, 'index']);
 Route::post('profile', [ProfileController::class, 'store']);
+Route::put('profile', [ProfileController::class, 'update']);
