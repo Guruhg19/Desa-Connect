@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
+use App\Http\Resources\PaginateResource;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Http\Resources\DevelopmentApplicantResource;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 use App\Http\Requests\DevelopmentApplicantStoreRequest;
 use App\Http\Requests\DevelopmentApplicantUpdateRequest;
-use App\Http\Resources\PaginateResource;
-use App\Http\Resources\DevelopmentApplicantResource;
 use App\Interfaces\DevelopmentApplicantRepositoryInterface;
 
-class DevelopmentApplicantController extends Controller
+class DevelopmentApplicantController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
@@ -20,6 +23,16 @@ class DevelopmentApplicantController extends Controller
     public function __construct(DevelopmentApplicantRepositoryInterface $developmentApplicantRepository)
     {
         $this->developmentApplicantRepository = $developmentApplicantRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['development-applicant-list|development-applicant-create|development-applicant-edit|development-applicant-delete']), only:['index', 'getAllPaginated', 'show']),
+            new Middleware(PermissionMiddleware::using(['development-applicant-create']), only:['store']),
+            new Middleware(PermissionMiddleware::using(['development-applicant-edit']), only:['update']),
+            new Middleware(PermissionMiddleware::using(['development-applicant-delete']), only:['destroy']),
+        ];
     }
 
     

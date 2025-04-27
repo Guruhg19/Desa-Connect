@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ResponseHelper;
-use App\Http\Requests\EventStoreRequest;
-use App\Http\Requests\EventUpdateRequest;
-use App\Http\Resources\EventResource;
-use App\Http\Resources\PaginateResource;
-use App\Interfaces\EventRepositoryInterface;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use GuzzleHttp\Psr7\Response;
+use App\Helpers\ResponseHelper;
+use App\Http\Resources\EventResource;
+use App\Http\Requests\EventStoreRequest;
+use App\Http\Resources\PaginateResource;
+use App\Http\Requests\EventUpdateRequest;
+use App\Interfaces\EventRepositoryInterface;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-class EventController extends Controller
+class EventController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
@@ -21,6 +24,16 @@ class EventController extends Controller
     public function __construct(EventRepositoryInterface $eventRepository)
     {
         $this->eventRepository = $eventRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['event-list|event-create|event-edit|event-delete']), only:['index', 'getAllPaginated', 'show']),
+            new Middleware(PermissionMiddleware::using(['event-create']), only:['store']),
+            new Middleware(PermissionMiddleware::using(['event-edit']), only:['update']),
+            new Middleware(PermissionMiddleware::using(['event-delete']), only:['destroy']),
+        ];
     }
     
     public function index(Request $request)

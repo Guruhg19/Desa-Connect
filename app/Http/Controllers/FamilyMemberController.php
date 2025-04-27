@@ -4,20 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
-use App\Http\Requests\FamilyMemberStoreRequest;
-use App\Http\Requests\FamilyMemberUpdateRequest;
 use App\Http\Resources\PaginateResource;
 use App\Http\Resources\FamilyMemberResource;
+use Illuminate\Routing\Controllers\Middleware;
+use App\Http\Requests\FamilyMemberStoreRequest;
+use App\Http\Requests\FamilyMemberUpdateRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Interfaces\FamilyMemberRepositoryInterface;
+use Spatie\Permission\Middleware\PermissionMiddleware;
 
-
-class FamilyMemberController extends Controller
+class FamilyMemberController extends Controller implements HasMiddleware
 {
     private FamilyMemberRepositoryInterface $familyMemberRepository;
 
     public function __construct(FamilyMemberRepositoryInterface $familyMemberRepository)
     {
         $this->familyMemberRepository = $familyMemberRepository;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware(PermissionMiddleware::using(['family-member-list|family-member-create|family-member-edit|family-member-delete']), only:['index', 'getAllPaginated', 'show']),
+            new Middleware(PermissionMiddleware::using(['family-member-create']), only:['store']),
+            new Middleware(PermissionMiddleware::using(['family-member-edit']), only:['update']),
+            new Middleware(PermissionMiddleware::using(['family-member-delete']), only:['destroy']),
+        ];
     }
     /**
      * Display a listing of the resource.
